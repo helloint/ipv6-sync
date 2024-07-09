@@ -38,7 +38,7 @@ export async function newHashPassword(pwd, nonce, key) {
 
 export function createNonce() {
 	const typeVar = 0;
-	const deviceID = ""; // 无效参数
+	const deviceID = 'bot';
 	const timeVar = Math.floor(Date.now() / 1000);
 	const randomVar = Math.floor(Math.random() * 10000);
 	return `${typeVar}_${deviceID}_${timeVar}_${randomVar}`;

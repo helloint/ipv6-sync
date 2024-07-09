@@ -5,8 +5,7 @@ import {sleep} from "./util.js";
 const main = async () => {
 	if (!checkEnv()) return;
 
-	console.log(await renewToken());
-	// await detect();
+	await detect();
 };
 const detect = async () => {
 	const ipV6 = await getIpV6();
@@ -16,6 +15,8 @@ const detect = async () => {
 		await enableIpV6();
 		await sleep(5000);
 		console.log(`IPv6 module restarted. IPv6: ${await getIpV6()}`);
+	} else {
+		console.log(`IPv6 normal.`);
 	}
 }
 

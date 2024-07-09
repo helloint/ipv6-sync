@@ -1,14 +1,19 @@
 const env = {
 	ROUTER_IP: process.env.ROUTER_IP,
+	ROUTER_KEY: process.env.ROUTER_KEY,
 	ROUTER_USERNAME: process.env.ROUTER_USERNAME,
 	ROUTER_PASSWORD: process.env.ROUTER_PASSWORD,
 }
 export const checkEnv = () => {
-	if (!env.ROUTER_IP) console.log('ROUTER_IP required');
-	if (!env.ROUTER_USERNAME) console.log('ROUTER_USERNAME required');
-	if (!env.ROUTER_PASSWORD) console.log('ROUTER_PASSWORD required');
+	let valid = true;
+	Object.entries(env).forEach(([key, value]) => {
+		if (!env[key]) {
+			console.log(`${key} required`);
+			valid = false;
+		}
+	});
 
-	return !(!env.ROUTER_IP || !env.ROUTER_USERNAME || !env.ROUTER_PASSWORD);
+	return valid;
 }
 
 export const getEnv = (key) => {

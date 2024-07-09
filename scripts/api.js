@@ -62,7 +62,7 @@ const fetchApi = async (url, body, method, retries = 1) => {
 export const renewToken = async () => {
 	const url = `http://${getEnv('ROUTER_IP')}/cgi-bin/luci/api/xqsystem/login`;
 	const nonce = createNonce();
-	const password = await hashPassword(getEnv('ROUTER_PASSWORD'), nonce, getEnv('ROUTER_IP'));
+	const password = await hashPassword(getEnv('ROUTER_PASSWORD'), nonce, getEnv('ROUTER_KEY'));
 	const options = {
 		method: 'POST',
 		headers: {
@@ -84,6 +84,7 @@ export const renewToken = async () => {
 			const responseJson = await response.json();
 			if (responseJson.code !== 0) {
 				// {"code":401,"msg":"not auth"}
+				console.error(JSON.stringify(responseJson));
 				throw new Error('Login was not ok.');
 			}
 
