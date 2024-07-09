@@ -31,7 +31,7 @@ const fetchApi = async (url, body, method, retries = 1) => {
 
 		try {
 			const contentType = response.headers.get('Content-Type');
-			if (contentType && contentType.includes('application/json')) {
+			if (isJsonResponse(contentType)) {
 				const responseJson = await response.json();
 				if (responseJson.code !== 0) {
 					// {"code":401,"msg":"Invalid token"}%
@@ -80,7 +80,7 @@ export const renewToken = async () => {
 
 	try {
 		const contentType = response.headers.get('Content-Type');
-		if (contentType && contentType.includes('application/json')) {
+		if (isJsonResponse(contentType)) {
 			const responseJson = await response.json();
 			if (responseJson.code !== 0) {
 				// {"code":401,"msg":"not auth"}
@@ -116,4 +116,8 @@ const generateHeader = () => {
 		'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
 		'X-Requested-With': 'XMLHttpRequest',
 	};
+}
+
+const isJsonResponse = (contentType) => {
+	return contentType && (contentType.includes('application/json') || contentType.includes('text/html'));
 }
