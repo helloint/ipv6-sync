@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  ipv6-sync:
+    build: .
+    container_name: cron-ipv6-sync-app
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - NODE_ENV=production
