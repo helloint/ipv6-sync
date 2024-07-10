@@ -38,7 +38,7 @@ const fetchApi = async (url, body, method, retries = 1) => {
 					if (responseJson.code === 401 && responseJson.msg === 'Invalid token' && retries > 0) {
 						const result = await renewToken();
 						if (result) {
-							return await fetchApi(url, options, retries - 1);
+							return await fetchApi(url, body, method, retries - 1);
 						}
 						throw new Error('Renew token failed.');
 					} else {
