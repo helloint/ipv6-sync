@@ -1,5 +1,5 @@
 import {checkEnv} from "./env.js";
-import {disableIpV6, enableIpV6, getIpV6, renewToken} from "./api.js";
+import {disableIpV6, enableIpV6, getIpV6, getWanInfo, renewToken} from "./api.js";
 import {sleep} from "./util.js";
 
 const main = async () => {
@@ -11,12 +11,32 @@ const detect = async () => {
 	const ipV6 = await getIpV6();
 	if (!ipV6) {
 		console.log(`IPv6 lost, restart Xiaomi Router IPv6 module.`);
+
 		await disableIpV6();
-		await sleep(10000);
+		let disabled = false;
+		do {
+			const wanInfo = await getWanInfo();
+			if (wanInfo.info.ipv6_info.wanType === 'off') {
+				disabled = true;
+			} else {
+				console.log('Waiting IPv6 being turned off...');
+				await sleep(1000);
+			}
+		} while (!disabled);
+
 		await enableIpV6();
-		await sleep(10000);
+		let enabled = false;
+		do {
+			const wanInfo = await getWanInfo();
+			if (wanInfo.info.ipv6_info.wanType === 'native') {
+				enabled = true;
+			} else {
+				console.log('Waiting IPv6 being turned on...');
+				await sleep(1000);
+			}
+		} while (!enabled);
+
 		console.log(`IPv6 module restarted.`);
-		await sleep(5000);
 		console.log(`IPv6: ${await getIpV6()}`);
 	} else {
 		console.log(`IPv6 normal.`);

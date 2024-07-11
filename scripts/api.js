@@ -18,11 +18,15 @@ export const disableIpV6 = async () => {
 	return await fetchApi(`xqnetwork/set_wan6`, 'wanType=off', 'POST');
 }
 
+export const getWanInfo = async () => {
+	return await fetchApi(`xqnetwork/wan_info`);
+}
+
 const fetchApi = async (url, body, method, retries = 1) => {
 	try {
 		const response = await fetch(`http://${getEnv('ROUTER_IP')}/cgi-bin/luci/;stok=${getCache('TOKEN')}/api/${url}`, {
 			headers: generateHeader(),
-			method: method ?? 'POST',
+			method: method ?? 'GET',
 			body,
 		});
 		if (!response.ok) {

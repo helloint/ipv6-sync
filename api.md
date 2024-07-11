@@ -45,3 +45,17 @@ curl "http://$ROUTER_IP/cgi-bin/luci/;stok=$TOKEN/api/xqnetwork/set_wan6" \
   -H "X-Requested-With: XMLHttpRequest" \
   --data-raw "wanType=native&autosetipv6=0"
 ```
+
+检查ipv6状态
+```shell
+ROUTER_IP=192.168.31.1
+TOKEN=c54c9574dd5ad8f946f9588bdc54fe48
+curl "http://$ROUTER_IP/cgi-bin/luci/;stok=$TOKEN/api/xqnetwork/wan_info"
+	-H "Accept: application/json, text/javascript, */*; q=0.01" \
+	-H "Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7,pt-BR;q=0.6,pt;q=0.5" \
+	-H "Host: $ROUTER_IP" \
+	-H "Referer: http://$ROUTER_IP/cgi-bin/luci/;stok=$TOKEN/web/setting/wan" \
+	-H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
+	-H "X-Requested-With: XMLHttpRequest" \
+	--compressed
+```
