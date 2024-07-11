@@ -6,7 +6,6 @@ export const getIpV6 = async () => {
 	try {
 		return await (await fetch('https://6.ipw.cn')).text();
 	} catch (error) {
-		console.log(error);
 		return null;
 	}
 }
@@ -71,8 +70,6 @@ export const renewToken = async () => {
 		},
 		body: `username=${getEnv('ROUTER_USERNAME')}&password=${password}&nonce=${nonce}&logtype=2`,
 	};
-
-	console.log(options.body);
 
 	const response = await fetch(url, options);
 	if (!response.ok) {

@@ -12,9 +12,12 @@ const detect = async () => {
 	if (!ipV6) {
 		console.log(`IPv6 lost, restart Xiaomi Router IPv6 module.`);
 		await disableIpV6();
+		await sleep(10000);
 		await enableIpV6();
+		await sleep(10000);
+		console.log(`IPv6 module restarted.`);
 		await sleep(5000);
-		console.log(`IPv6 module restarted. IPv6: ${await getIpV6()}`);
+		console.log(`IPv6: ${await getIpV6()}`);
 	} else {
 		console.log(`IPv6 normal.`);
 	}
